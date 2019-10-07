@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome to Reader's Block</title>
+	<!-- <link href="bootstrap-4.3.1-dist/css/bootstrap.css" rel="stylesheet"> -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link href="../static/css/style.css" rel="stylesheet">
+	<script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="../static/js/script.js" type="text/javascript"></script>
+	<script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+	<meta charset="utf-8">
+	<script>
+		$(document).ready(function(){
+		  $("#login-frame").click(function(){
+		    $("#register-panel").hide();
+		    $("#login-panel").fadeIn();
+		    $("#login-reg-section").css("height","60%");
+		    $("#login-reg-section").fadeToggle();
+		  });
+		  $("#register-frame").click(function(){    
+		    $("#login-panel").hide();
+		    $("#register-panel").fadeIn();
+		    $("#login-reg-section").css("height","80%");
+		    $("#login-reg-section").fadeToggle();
+		  });
+		  $("#home-frame").click(function(){    
+		    $("#login-panel").fadeOut();
+		    $("#register-panel").fadeOut();
+		    $("#login-reg-section").fadeOut();
+
+		  });
+		});
+	</script>
+</head>
+<body>
+	<span name="navigation">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		  <a class="navbar-brand" href="#">Reader's Block</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+		    <div class="navbar-nav">
+		      <a class="nav-item nav-link active" href="#" id="home-frame">Home <span class="sr-only">(current)</span></a>
+		      <a class="nav-item nav-link" href="#" id="login-frame">Login</a>
+		      <a class="nav-item nav-link" href="#" id="register-frame">register</a>
+		    </div>
+		  </div>
+		</nav>
+	</span>
+<div class="container h-100">
+	<div class="row align-items-center h-100">
+		<div class="row" style="position: fixed;z-index: -1;color:white;">
+			<div class="col-md-12" style="text-align: center;left: -5.3%"><span style="font-size: 40px">Welcome to the </span><span style="font-size: 60px"> Reader's Block!</span></div>
+			<div class="row">
+				<div class="col-md-3 home-divs">
+					<div class="row">
+						<div class="col-md-4">
+							<span style="position: absolute;font-size: 90px;display: block;padding-top: 50%"><ion-icon name="cloud-upload"></ion-icon></span>
+						</div>
+						<div class="col-md-8" style="word-wrap: break-word;display: block;vertical-align: middle;padding-top: 15%;">
+							<span style="position: absolute;">
+								<span style="font-size: 25px;">
+									Upload your documents
+								</span><br>
+								<span style="font-size: 20px;color: #b030b0">
+								Upload PDFs, text and doc files and access anywhere!
+							</span>
+							</span>
+							
+						</div>
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-3 home-divs">
+					<div class="row">
+						<div class="col-md-4">
+							<span style="position: absolute;font-size: 90px;display: block;padding-top: 50%"><ion-icon name="share"></ion-icon></span>
+						</div>
+						<div class="col-md-8" style="word-wrap: break-word;display: block;vertical-align: middle;padding-top: 15%;">
+							<span style="position: absolute;">
+								<span style="font-size: 25px;">
+									Share your files
+								</span><br>
+								<span style="font-size: 20px;color: #b030b0">
+									Share your files with your friends, colleagues, and family!
+							</span>
+							</span>
+							
+						</div>
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-3 home-divs">
+					<div class="row">
+						<div class="col-md-4">
+							<span style="position: absolute;font-size: 90px;display: block;padding-top: 50%"><i class="fas fa-shield-alt"></i></span>
+						</div>
+						<div class="col-md-8" style="word-wrap: break-word;display: block;vertical-align: middle;padding-top: 15%;">
+							<span style="position: absolute;">
+								<span style="font-size: 25px;">
+									Keeps your files safe with us
+								</span><br>
+								<span style="font-size: 20px;color: #b030b0">
+									Keep your files private to keep them safe!
+							</span>
+							</span>
+							
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<div class="col-md-5 mx-auto login-section" id="login-reg-section">
+			<div id="login-panel">
+			<div class="head-login"align="center">
+				<h2>Login</h2>
+			</div>
+			 <form action="" method="POST">
+                 {{ form1.hidden_tag() }}
+			  <div class="form-group font-sans">
+			   {{ form1.username}}
+			   {% for error in form1.username.errors if not 'This field is required.' in error %}
+                     <script>
+                     		$("#register-panel").hide();
+						  	$("#login-panel").show();						    
+						    $("#login-reg-section").css("height","60%");
+						    $("#login-reg-section").fadeIn();
+					</script>
+                     <span stye="color: red;">[{{ error }}]</span>
+               {% endfor %}
+			  </div>
+			  <div class="form-group">
+			    {{ form1.password }}
+			    {% for error in form1.password.errors if not 'This field is required.' in error %}
+                     <script>
+                     		$("#register-panel").hide();
+						  	$("#login-panel").show();						    
+						    $("#login-reg-section").css("height","60%");
+						    $("#login-reg-section").fadeIn();
+					</script>
+                     <span stye="color: red;">[{{ error }}]</span>
+                     {% endfor %}
+			  </div>
+			  <div class="" align="center">
+					{{ form1.submit() }}
+			  </div>
+			  <br>
+			  <div class="new-reg" align="center">
+			  	New to RememberMe? <a href="#register" onclick="loginToRegister()">Register here</a>
+			  </div>
+			 </form>
+			</div>
+			<div id="register-panel" style="display: none">
+			<div class="head-login"align="center">
+				<h2>Register</h2>
+			</div>
+			 <form action="" method="POST" nonvalidate>
+                 {{ form.hidden_tag() }}
+                 <div class="form-group font-sans">
+                     {{ form.name }}
+                     {{ form.username }}
+                     {% for error in form.username.errors if not 'This field is required.' in error %}
+                     <script>
+						  	$("#login-panel").hide();
+						    $("#register-panel").show();						    
+						    $("#login-reg-section").css("height","80%");
+						    $("#login-reg-section").fadeIn();
+					</script>
+                     <span stye="color: red;">[{{ error }}]</span>
+                     {% endfor %}
+                     {{ form.email }}
+                     {% for error in form.email.errors if not 'This field is required.' in error %}
+                     <script>
+						  	$("#login-panel").hide();
+						    $("#register-panel").show();						    
+						    $("#login-reg-section").css("height","80%");
+						    $("#login-reg-section").fadeIn();
+					</script>
+                     <span stye="color: red;">[{{ error }}]</span>
+                     {% endfor %}
+                 </div>
+                 <div class="form-group">
+                     <!-- <label for="pwd">Password:</label> -->
+                     {{ form.password }}
+                     {% for error in form.password.errors if not 'This field is required.' in error %}
+                     <script>
+						  	$("#login-panel").hide();
+						    $("#register-panel").show();						    
+						    $("#login-reg-section").css("height","80%");
+						    $("#login-reg-section").fadeIn();
+					</script>
+                     <span stye="color: red;">[{{ error }}]</span>
+                     {% endfor %}
+                     {{ form.c_password }}
+                     {% for error in form.c_password.errors if not 'This field is required.' in error %}
+                     <script>
+						  	$("#login-panel").hide();
+						    $("#register-panel").show();						    
+						    $("#login-reg-section").css("height","80%");
+						    $("#login-reg-section").fadeIn();
+					</script>
+                     <span stye="color: red;">[{{ error }}]</span>
+                     {% endfor %}
+                 </div>
+			  <div class="" align="center">
+			  	{{ form.submit() }}
+			  </div>
+			  <br>
+			  <div class="new-reg" align="center">
+			  	Already have an account? <a href="#register" onclick="loginToRegister()">Sign In</a>
+			  </div>
+			 </form>
+			</div> <!-- form registration ends -->
+	</div>
+	</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+        <div class="made-by">
+            <p class="">© Copyright 2019</p>
+            <p>Created by  <strong style="color: #f73859">Raghav Divyansh Bhoomika Chandranshi</strong></p>
+	
+        </div>
+    </div>
+</footer>
+</body>
+</html>

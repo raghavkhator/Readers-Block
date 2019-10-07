@@ -1,0 +1,102 @@
+body{
+	/*background: rgb(2,0,36);
+  background: linear-gradient(31deg, rgba(2,0,36,1) 17%, rgba(0,66,116,1) 48%, rgba(232,45,217,1) 71%, rgba(243,14,213,1) 91%, rgba(173,0,255,1) 100%); */
+   /*background: rgb(2,0,36);
+background: linear-gradient(31deg, rgba(2,0,36,1) 17%, rgba(0,66,116,1) 58%, rgba(137,32,187,1) 94%); 
+*/
+  background: rgb(2,0,36);
+  background: linear-gradient(31deg, rgba(2,0,36,1) 18%, rgba(0,77,135,1) 58%, rgba(65,62,83,1) 94%);   
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100%;
+}
+html{
+	height: 100%
+}
+.login-section{
+	background-color: rgba(37,39,40,0.9); 
+	padding-top: 7%;
+	height: 60%;
+	color: white;
+  letter-spacing: 2px;
+  position: relative;
+  display: none;
+  z-index: 2;
+}
+
+input[type=text],input[type=password],input[type=email]{
+  width: 100%;
+  padding: 5px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 3px solid #ccc;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+  background-color: rgba(0, 0, 0, 0.1); 
+  color: white;
+}
+
+input[type=text]:focus {
+  border: 3px solid #555;
+}
+input[type=password]:focus {
+  border: 3px solid #555;
+}
+input[type=email]:focus {
+  border: 3px solid #555;
+}
+button[type=submit]{
+  background-color: white;
+  border: none;
+  color: black;
+  font-weight: bold;
+  padding: 10px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+button[type=submit]:hover {
+  background-color: #f73859;
+  color:white ;
+}
+.font-sans{
+	font-family: sans-serif;
+}
+
+
+.head-login h2{
+	color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    letter-spacing: 2px;
+    margin-top: -6%
+}
+.login-section a{
+  color:#f73859;
+  text-decoration: none;
+}
+
+.home-divs{
+  height:250px;
+  width: 400px;
+  background-color: rgba(0,0,0,0.4);
+  display: block;
+}
+
+.details{
+  color: white;
+}
+
+footer {
+    position: static;
+    width: 100%;
+    background: none;
+    color: #fff;
+}
+.made-by {
+    margin: 0;
+    padding: 10px 0px;
+    text-align: center;
+}
