@@ -71,7 +71,6 @@ def upload():
 def download():
     file_data= Document.query.filter_by(id=1).first()
     send_file(BytesIO(file_data.doc), attachment_filename=file_data.name, as_attachement=True)
-
     return render_template('home.html', user=session['curr_user'])        
 @app.route('/logout')
 def logout():

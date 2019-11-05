@@ -14,24 +14,14 @@
 		<meta charset="utf-8">
 		<script>
 			$(document).ready(function(){
-			  $("#login-frame").click(function(){
-			    $("#register-panel").hide();
-			    $("#login-panel").fadeIn();
-			    $("#login-reg-section").css("height","60%");
-			    $("#login-reg-section").fadeToggle();
-			  });
-			  $("#register-frame").click(function(){    
-			    $("#login-panel").hide();
-			    $("#register-panel").fadeIn();
-			    $("#login-reg-section").css("height","80%");
-			    $("#login-reg-section").fadeToggle();
-			  });
-			  $("#home-frame").click(function(){    
-			    $("#login-panel").fadeOut();
-			    $("#register-panel").fadeOut();
-			    $("#login-reg-section").fadeOut();
-
-			  });
+				$("#uploadclick").click(function(){
+					// e.preventDefault();
+		        $(".upload-panel").fadeIn();
+		        $(".upload-panel").css("height","60%");
+		    	
+               // 
+             });
+			 
 			});
 		</script>
 	</head>
@@ -62,11 +52,9 @@
 				      <a class="nav-link" href="#" style=" margin-top: 20px; margin-left: 50px; font-size: 2px;"> <img src="../static/image/logo1.jpg" style="width: 100px; height: 100px;"></a>
 				    </li>
 				    <li class="nav-item">
-				      <a class="nav-link" href="#" onclick="upload_file()" style=" margin-top: 100px; margin-left: 50px; font-size: 25px;"><i class="fas fa-cloud-upload-alt" style="color: white"></i>Upload</a>
-				      <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
-				      	<input type="file" name="file">
-				      	<input type="submit" value="upload!">
-				      </form>
+				      
+				      	<a class="nav-link" href="#" id="uploadclick" style=" margin-top: 100px; margin-left: 50px; font-size: 25px;"><i class="fas fa-cloud-upload-alt" style="color: white"></i>Upload</a>
+				      	 
 				    </li>
 				    <li class="nav-item">
 				      <a class="nav-link" href="#" style=" margin-top: 30px; margin-left: 50px; font-size: 25px;"><i class="fas fa-shield-alt" style="color: white"></i>  Private</a>
@@ -83,7 +71,21 @@
 
   			</div>
 
-		</div> 
+  			<div class="col-md-5 mx-auto upload-panel bg-dark" style="display: none color:rgba(37,39,40,0.9); opacity: 0.8;
+                   padding-top: 1%; margin-top: 150px; margin-left: 390px; height: 60%; letter-spacing: 2px; z-index: 2; ">
+                <div class="upload-panel-div">
+				    <div class="head-upload" align="center" >
+						<h2>Upload a file</h2>
+				    </div>
+				 	<form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" style="margin-bottom: 15px;">
+				 		<br>
+				 		<input type="file" id="upload-form" value="browse" name="file" style="margin-left: 65px;">&nbsp;
+						<input type="submit" id="sumbitform" value=" Select ">
+						<br>
+					</form>
+			    </div>
+
+		   </div> 
 	<footer>
 		<div class="container">
 	        <div class="made-by">
