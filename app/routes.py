@@ -1,10 +1,12 @@
-from flask import render_template, redirect, flash, url_for, Flask, request, jsonify, flash
+from flask import render_template, redirect, flash, url_for, Flask, request, jsonify, flash, session
 from app import app,db
 from flask_sqlalchemy import SQLAlchemy
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.urls import url_parse
-from app.models import User
+from werkzeug import secure_filename
+from app.models import User,Document
+from io import BytesIO
 from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, login_required, logout_user
 
@@ -15,6 +17,7 @@ db.create_all()
 def loginRegistration():
     if current_user.is_authenticated:
         username = current_user.username
+        session['username']=username
         return redirect(url_for('home', username = current_user.username))
     formReg = RegistrationForm(prefix='formReg')
     formLog = LoginForm(prefix='formLog')
@@ -28,8 +31,9 @@ def loginRegistration():
         new_user.set_password(formReg.password.data)
         db.session.add(new_user)
         db.session.commit()
+        session['username']=formReg.username.data
         print('New user created')
-        return redirect(url_for('home', username = username))
+        return redirect(url_for('home', username = formReg.username.data,))
     if formLog.validate_on_submit() and formLog.submit.data:
         user = User.query.filter_by(username = formLog.username.data).first()
         if user is None or not user.check_password(formLog.password.data):
@@ -37,6 +41,7 @@ def loginRegistration():
             return redirect(url_for('loginRegistration'))
         login_user(user, remember = True)
         print(user.username)
+        session['username']=user.username
         return redirect(url_for('home', username = user.username))
     return render_template('login.html', form = formReg, form1 = formLog)
 
@@ -52,9 +57,22 @@ def home(username):
 	user_data['username'] = user.username
 	user_data['name'] = user.name
 	user_data['password'] = user.password
-	return "login Sucessful"
+	session['curr_user'] = user_data
 	return render_template('home.html', user = user_data)
+@app.route('/upload', methods=['GET','POST'])
+def upload():
+    if request.method == 'POST':
+        file = request.files['file']
+        newFile= Document(name=file.filename, username=session['username'],doc=file.read())
+        db.session.add(newFile)
+        db.session.commit()
+        return render_template('home.html', user=session['curr_user'])
+@app.route('/download')
+def download():
+    file_data= Document.query.filter_by(id=1).first()
+    send_file(BytesIO(file_data.doc), attachment_filename=file_data.name, as_attachement=True)
 
+    return render_template('home.html', user=session['curr_user'])        
 @app.route('/logout')
 def logout():
     logout_user()

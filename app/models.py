@@ -22,8 +22,9 @@ def load_user(id):
 
 class Document(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
+	name = db.Column(db.String(50))
 	username = db.Column(db.String(50))
-	doc = db.Column(db.BLOB)
+	doc = db.Column(db.LargeBinary)
 	def __repr__(self):
 		return  '<Doc {}>'.format(self.doc)
 		
