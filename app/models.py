@@ -25,7 +25,7 @@ class Document(db.Model):
 	name = db.Column(db.String(50))
 	username = db.Column(db.String(50))
 	doc = db.Column(db.LargeBinary)
-	private = db.Column(db.Integer)
+	privateval = db.Column(db.Integer)
 	def __repr__(self):
 		return  '<Doc {}>'.format(self.doc)
 		

@@ -11,11 +11,3 @@ function loginToRegister() {
     document.getElementById("login-reg-section").style.height=80+"%";
   }
 } 
-function upload_file()
-{  alert("Hello there");
-<form action="/action_page.php">
-  Select a file: <input type="file" name="myFile"><br><br>
-  <input type="submit">
-</form> 
- 
-}

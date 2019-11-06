@@ -63,7 +63,10 @@ def home(username):
 def upload():
     if request.method == 'POST':
         file = request.files['file']
-        newFile= Document(name=file.filename, username=session['username'],doc=file.read())
+        x=0
+        if request.form.get('privatebool'):
+            x=1
+        newFile= Document(name=file.filename, username=session['username'],doc=file.read(), privateval=x)
         db.session.add(newFile)
         db.session.commit()
         return render_template('home.html', user=session['curr_user'])

@@ -16,14 +16,27 @@
 			$(document).ready(function(){
 				$("#uploadclick").click(function(){
 					// e.preventDefault();
-		        $(".upload-panel").fadeIn();
-		        $(".upload-panel").css("height","60%");
+		        $(".upld-panel").fadeToggle();
+
 		    	
                // 
              });
 			 
 			});
 		</script>
+		<style type="text/css">
+			.upld-panel{
+			  z-index: 10;
+			  background-color: rgba(37,39,40,0.9); 
+			  margin-top: 15%;
+			  left: 30%;
+			  padding: 20px; 
+			  align-self: 70%;
+			  letter-spacing: 2px;
+			  display: none;
+			  position: absolute;
+			}
+		</style>
 	</head>
 	<body>
 		<span name="navigation">
@@ -70,22 +83,19 @@
   			<div class="col-sm-1">
 
   			</div>
-
-  			<div class="col-md-5 mx-auto upload-panel bg-dark" style="display: none color:rgba(37,39,40,0.9); opacity: 0.8;
-                   padding-top: 1%; margin-top: 150px; margin-left: 390px; height: 60%; letter-spacing: 2px; z-index: 2; ">
-                <div class="upload-panel-div">
+                <div class="upld-panel">
 				    <div class="head-upload" align="center" >
-						<h2>Upload a file</h2>
+						<h2>Upload File</h2>
 				    </div>
-				 	<form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" style="margin-bottom: 15px;">
+				 	<form action="{{ url_for('upload') }}" id="upload-form" method="POST" enctype="multipart/form-data">
 				 		<br>
-				 		<input type="file" id="upload-form" value="browse" name="file" style="margin-left: 65px;">&nbsp;
-						<input type="submit" id="sumbitform" value=" Select ">
+				 		<input type="file" value="browse" name="file" style="color: white;">&nbsp;
+				 		<input type="checkbox" name="privatebool"><span style="color: white;">Private File</span><br>
+						<input type="submit" id="sumbitform" value="Upload" style="margin-left: 37%; margin-top: 5px; width: 120px;">
 						<br>
 					</form>
 			    </div>
-
-		   </div> 
+	</body>
 	<footer>
 		<div class="container">
 	        <div class="made-by">
@@ -95,5 +105,4 @@
 	        </div>
 	    </div>
 	</footer>
-	</body>
 	</html>
