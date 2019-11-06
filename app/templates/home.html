@@ -15,22 +15,38 @@
 		<script>
 			$(document).ready(function(){
 				$("#uploadclick").click(function(){
-					// e.preventDefault();
 		        $(".upld-panel").fadeToggle();
-
-		    	
-               // 
+		        $(".download-panel").hide();
              });
+				$("#downloadclick").click(function(){
+				$(".founds").hide();
+		        $(".download-panel").fadeToggle();
+		        $(".upld-panel").hide();
+             });
+				$("#dwd-inp").click(function(){
+					$(".founds").hide();
+				});
 			 
 			});
 		</script>
 		<style type="text/css">
 			.upld-panel{
 			  z-index: 10;
-			  background-color: rgba(37,39,40,0.9); 
-			  margin-top: 15%;
+			  background-color: rgba(37,39,40,0.7); 
+			  margin-top:15%;
 			  left: 30%;
 			  padding: 20px; 
+			  align-self: 70%;
+			  letter-spacing: 2px;
+			  display: none;
+			  position: absolute;
+			}
+			.download-panel{
+			  z-index: 10;
+			  background-color: rgba(37,39,40,0.7); 
+			  margin-top: 15%;
+			  left: 30%;
+			  padding: 30px; 
 			  align-self: 70%;
 			  letter-spacing: 2px;
 			  display: none;
@@ -73,7 +89,7 @@
 				      <a class="nav-link" href="#" style=" margin-top: 30px; margin-left: 50px; font-size: 25px;"><i class="fas fa-shield-alt" style="color: white"></i>  Private</a>
 				    </li>
 				    <li class="nav-item">
-				      <a class="nav-link" href="#" style=" margin-top: 30px; margin-left: 50px; font-size: 25px;"><i class="fas fa-file-download" style="color: white"></i>  Download</a>
+				      <a class="nav-link" href="#" id="downloadclick" style=" margin-top: 30px; margin-left: 50px; font-size: 25px;"><i class="fas fa-file-download" style="color: white"></i>  Download</a>
 				    </li>
 				  </ul>
 				</nav> 		 		
@@ -92,6 +108,25 @@
 				 		<input type="file" value="browse" name="file" style="color: white;">&nbsp;
 				 		<input type="checkbox" name="privatebool"><span style="color: white;">Private File</span><br>
 						<input type="submit" id="sumbitform" value="Upload" style="margin-left: 37%; margin-top: 5px; width: 120px;">
+						<br>
+					</form>
+			    </div>
+			    <div class="download-panel">
+				    <div class="head-upload" align="center" >
+						<h2>Download A File</h2>
+				    </div>
+				 	<form action="{{ url_for('download') }}" id="download-form" method="POST" enctype="multipart/form-data">
+				 		<br>
+				 		<span style="color: white;">Enter File name:</span>
+				 		<input type="input" id="dwd-inp" value="" name="file" style=" width: 200px;">
+				 		<div class="notfound" style="height: 20px; text-align: right">
+				 		{% if not found %}
+				 			<span class="founds" style="color: red; font-size: 10px; text-align: center;">FILE NOT FOUND</span>
+				 			<script> $(".download-panel").show();</script>
+				 		{% endif %}
+				 		</div>
+				 		<!-- <input type="checkbox" name="privatebool"><span style="color: white;">Private File</span><br> -->
+						<input type="submit" id="sumbitform" value="Download" style="margin-left: 37%; margin-top: 5px; width: 120px;">
 						<br>
 					</form>
 			    </div>

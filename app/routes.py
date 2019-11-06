@@ -1,4 +1,4 @@
-from flask import render_template, redirect, flash, url_for, Flask, request, jsonify, flash, session
+from flask import render_template, redirect, flash, url_for, Flask, request, jsonify, flash, session, send_file
 from app import app,db
 from flask_sqlalchemy import SQLAlchemy
 import uuid
@@ -58,7 +58,7 @@ def home(username):
 	user_data['name'] = user.name
 	user_data['password'] = user.password
 	session['curr_user'] = user_data
-	return render_template('home.html', user = user_data)
+	return render_template('home.html', user = user_data,found=True)
 @app.route('/upload', methods=['GET','POST'])
 def upload():
     if request.method == 'POST':
@@ -70,11 +70,16 @@ def upload():
         db.session.add(newFile)
         db.session.commit()
         return render_template('home.html', user=session['curr_user'])
-@app.route('/download')
+@app.route('/download',  methods=['GET','POST'])
 def download():
-    file_data= Document.query.filter_by(id=1).first()
-    send_file(BytesIO(file_data.doc), attachment_filename=file_data.name, as_attachement=True)
-    return render_template('home.html', user=session['curr_user'])        
+    ipname=request.form.get('file')
+    file_data= Document.query.filter_by(name=ipname).first()
+    temp=True
+    if file_data is None:
+        temp=False
+    if temp:
+        return send_file(BytesIO(file_data.doc), attachment_filename=file_data.name, as_attachment=True)
+    return render_template('home.html', user=session['curr_user'],found=temp)        
 @app.route('/logout')
 def logout():
     logout_user()
