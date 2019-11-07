@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<title>Your Profile Page</title>
+		<!-- <link href="bootstrap-4.3.1-dist/css/bootstrap.css" rel="stylesheet"> -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<link href="../static/css/style.css" rel="stylesheet">
+		<script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<script src="../static/js/script.js" type="text/javascript"></script>
+		<script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+		<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+		<meta charset="utf-8">
+				<script>
+			$(document).ready(function(){
+			  $("#changePass").click(function(){
+			    $(".change-pass").fadeToggle();
+			    $("#login-reg-section").css("height","60%");
+			    $("#login-reg-section").fadeToggle();
+			  });
+			});
+		</script>
+	</head>
+	<body>
+		{% if alert %}
+		<script>alert("Password changed!");</script>
+		{% endif %}
+		{% if hide %}
+		<script>$(".change-pass").hide();</script>
+		{% endif %}
+		<span name="navigation">
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="padding: 0;padding-left:20px;padding-right: 20px">
+			  <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			    <span class="navbar-toggler-icon"></span>
+			  </button> -->
+			  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			   
+			    <div>
+				<a class="navbar-brand"  href="#">
+					  	<img src="..\static\image\logo2.jpeg" width="175px">
+				</a>
+			</div>
+			  </div>
+			    <div class="navbar-nav">
+			   <a class="nav-item nav-link" href="#" id="changePass">Change Password</a>
+				</div>
+			   <div class="navbar-nav">
+			      <a class="nav-item nav-link" href="{{ url_for('home', username=user.username) }}" id="home-frame">Home</a>
+			    </div>
+			    <div class="navbar-nav">
+			   <a class="nav-item nav-link" href="{{ url_for('logout') }}" id="logout">Logout</a>
+			</div>
+			</nav>
+		</span>
+		<br>
+		<br>
+		<br>
+		<div class ="change-pass">
+			<form action="{{ url_for('changePassword') }}" name="formChangePass" method="POST">
+				<input type="password" name="passOld" placeholder="Old password" required>
+				<input type="password" name="passNew" placeholder="New password" required>
+				<input type="password" name="passRe" placeholder="Re-enter password" required>
+				{{error}}
+				<br><br>
+				<input type="submit" name="changePass" value="Change Password!">
+			</form>
+		</div>
+		{% if not hide %}
+		<script>$('.change-pass').show();</script>
+		{% endif %}
+		<span>
+			<div class="container-fluid text-center h-100" style="position: fixed;">    
+				<div class="row content">
+				    <div class="col-sm-3" style="background-color:#363943;padding-top: 40px;height: 100%;position: absolute;">
+				      <div>
+				      	<span  style="color:#42A4FB;font-size: 200px;" class="fas fa-user-circle"></span>
+				      </div>
+				      <div>
+				      	<br>
+				      
+				      	<br>
+				      	<p style="color:white; font-size:24px">{{user.username}}</p>
+				      </div>
+				       <div>
+				       	<br>
+				      	<p style="color:white; font-size:150%">{{user.email}}</p>
+				      	<br>
+				      	<br>
+
+				      </div>
+				    </div>
+				    <div class="col-sm-3"></div>
+				    <div class="col-sm-9 text-left"> 
+				     		<!-- Put private file here -->
+				     		<br><br>				     			
+				     			<div class="col-sm-12">
+				     				{% for f in files %} 
+						        	<div class="row file-name-div">
+						        		<div class="col-sm-1"></div>
+						        		<div class="col-sm-7">{{f.fname}}</div> 
+						        		<div class="col-sm-4">{{f.fuser}}</div>
+						        	</div>
+						        	{% endfor %}
+				     			</div>
+				    </div>
+				</div>
+			</div>
+		</span>
+	</body>
+	</html>

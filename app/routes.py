@@ -24,10 +24,10 @@ def loginRegistration():
     if formReg.validate_on_submit() and formReg.submit.data:
         public = str(uuid.uuid4())
         new_user = User(
-		name = formReg.name.data,
-		username = formReg.username.data,
-		email = formReg.email.data,
-		)
+        name = formReg.name.data,
+        username = formReg.username.data,
+        email = formReg.email.data,
+        )
         new_user.set_password(formReg.password.data)
         db.session.add(new_user)
         db.session.commit()
@@ -56,12 +56,12 @@ def home(username):
     user_data['id'] = user.id
     user_data['username'] = user.username
     user_data['name'] = user.name
-    user_data['password'] = user.password
+    user_data['email'] = user.email
     session['curr_user'] = user_data
     files=[]
     all_files=Document.query.filter_by(privateval=0)
     for f in all_files:
-    	files.append({'fname':f.name,'fuser':f.username})
+        files.append({'fname':f.name,'fuser':f.username})
     #print(files)
     session['files']=files
     return render_template('home.html', user = user_data, files=files,found=True,ufound=True, ffound=True)
@@ -109,20 +109,6 @@ def shared():
     session['files']=files
     return render_template('home.html', user = session['curr_user'], files=files, found=True,ufound=True, ffound=True)
 
-@app.route('/search', methods=['GET','POST'])
-def search():
-    if request.method=='POST':
-        files=[]
-        all_files=Document.query.filter_by(sharedval=0, privateval=0)
-        searchstr=request.form.get('searchBar')
-        print(searchstr)
-        for f in all_files:
-            if searchstr in f.name:
-                files.append({'fname':f.name,'fuser':f.username})
-        print(files)
-        session['files']=files
-    return render_template('home.html', user = session['curr_user'], files=files, found=True,ufound=True, ffound=True)
-
 @app.route('/sharefile',methods=['GET','POST'])
 def sharefile():
     if request.method=='POST':
@@ -150,6 +136,48 @@ def sharefile():
             return render_template('home.html', user=session['curr_user'],files=session['files'],ufound=ufound, ffound=ffound,found=True)
             #return render_template('home.html', user=session['curr_user'],found=temp) 
         return render_template('home.html', user = session['curr_user'], files=session['files'],ufound=ufound, ffound=ffound,found=True)
+
+@app.route('/profilePage',methods=['POST','GET'])
+def profile():
+    files=[]
+    all_files=Document.query.filter_by(privateval=1,username=session['username'])
+    for f in all_files:
+        files.append({'fname':f.name,'fuser':f.username})
+    #print(files)
+    session['privatefiles']=files
+    return render_template('profile.html', user=session['curr_user'],alert=False,hide=True,files=files)
+
+@app.route('/changePassword', methods=['POST'])
+def changePassword():
+    matched=False
+    error="password doesnt match"
+    if request.method=='POST':
+        op = User.query.filter_by(username=session['username']).first()
+        matched = op.check_password(request.form.get('passOld'))
+        print(matched)
+        newPass = request.form.get('passNew')
+        if matched and newPass and newPass==request.form.get('passRe'):
+            op.set_password(newPass)
+            db.session.commit()
+            return render_template('profile.html',user=session['curr_user'],alert=True,error='',hide=True)
+        if not matched:
+            error="Incorrect old password"
+    return render_template('profile.html',user=session['curr_user'],alert=False,error=error,hide=False)
+
+@app.route('/search', methods=['GET','POST'])
+def search():
+    if request.method=='POST':
+        files=[]
+        all_files=Document.query.filter_by(sharedval=0, privateval=0)
+        searchstr=request.form.get('searchBar')
+        print(searchstr)
+        for f in all_files:
+            if searchstr in f.name:
+                files.append({'fname':f.name,'fuser':f.username})
+        print(files)
+        session['files']=files
+    return render_template('home.html', user = session['curr_user'], files=files, found=True,ufound=True, ffound=True)
+
 
 @app.route('/logout')
 def logout():
