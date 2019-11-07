@@ -17,12 +17,29 @@
 				$("#uploadclick").click(function(){
 		        $(".upld-panel").fadeToggle();
 		        $(".download-panel").hide();
+		        $(".share-panel").hide();
              });
 				$("#downloadclick").click(function(){
 				$(".founds").hide();
 		        $(".download-panel").fadeToggle();
 		        $(".upld-panel").hide();
+		        $(".share-panel").hide();
              });
+				$("#shareclick").click(function(){
+				$(".foundsv2").hide();
+		        $(".share-panel").fadeToggle();
+		        $(".upld-panel").hide();
+		        $(".download-panel").hide();
+             });
+				$("#sharedwithme").click(function(){
+					$("#shared-form").submit();
+
+				});
+				// var input = document.getElementById("searchBar");
+				// input.addEventListener("keyup", function(event){
+				//   if (event.keyCode === 13) {
+				//     $("#search-form").submit();
+				// }});
 				$("#dwd-inp").click(function(){
 					$(".founds").hide();
 				});
@@ -32,7 +49,7 @@
 		<style type="text/css">
 			.upld-panel{
 			  z-index: 10;
-			  background-color: rgba(37,39,40,0.7); 
+			  background-color: rgba(37,39,40,0.9); 
 			  margin-top:15%;
 			  left: 30%;
 			  padding: 20px; 
@@ -43,7 +60,7 @@
 			}
 			.download-panel{
 			  z-index: 10;
-			  background-color: rgba(37,39,40,0.7); 
+			  background-color: rgba(37,39,40,0.9); 
 			  margin-top: 15%;
 			  left: 30%;
 			  padding: 30px; 
@@ -52,23 +69,60 @@
 			  display: none;
 			  position: absolute;
 			}
+			.share-panel{
+			  z-index: 10;
+			  background-color: rgba(37,39,40,0.9); 
+			  margin-top: 15%;
+			  left: 30%;
+			  padding: 30px; 
+			  align-self: 70%;
+			  letter-spacing: 2px;
+			  display: none;
+			  position: absolute;
+			}
+			.file-name-div{
+			  height: 50px;
+			  width: 99%;
+			  padding-top: 1%;
+			  margin-left: 1px;
+			  background-color: rgba(21,27,36,0.8);
+			  color: white;
+			}
+
+			.file-name-div:hover{
+			  background-color: rgba(21,27,36,0.2);
+			}
+			.head-upload h2{
+			  color: #fff;
+			  font-size: 40px;
+			  font-weight: 500;
+			  text-align: center;
+			  letter-spacing: 2px;
+			  margin-top: 3%
+			}
 		</style>
 	</head>
 	<body>
 		<span name="navigation">
 			<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
-		  <a class="navbar-brand" href="#">Reader's Block</a>
+				      <a class="nav-link" href="#" style=" margin-top: -15px; margin-left: 10px; font-size: 2px; margin-bottom: -15px;"> <img src="../static/image/logo1.jpeg" style="width: 150px; height: 70px;"></a>
+				    
+		 
 
 		  <div class="navbar-nav" id="searchHome">
-		      <form class="navbar-form navbar-left" action="/action_page.php">
+
+		      	 <form class="navbar-form navbar-left" action="{{ url_for('search') }}" name="search-form" id="search-form" method="POST">
       			 <div class="form-group">
-        			<input style=" width: 600px; font-family: 'Trebuchet MS', Helvetica, sans-serif;"type="text" class="form-control fas fa-search" placeholder="Search">
+        			<input style=" width: 650px; font-family: 'Trebuchet MS', Helvetica, sans-serif;" type="text" class="fas fa-search" name="searchBar" id="searchBar" placeholder="Search">
+        			<input type="submit" hidden>
+        		 </div>
+        	
         		</form>	
-			 </div>
 		  </div>
 
 		  <div class="navbar-nav" id="profileIcon">
-             <span  style="color: white; font-size: 40px;" class="fas fa-user-circle"></span>
+		  	  <a class="navbar-brand" href="#" style="margin-left: -80px;">{{user.username}}</a>
+             <span  style="color: lightblue; margin-left: 20px; font-size: 50px;" class="fas fa-user-circle"></span>
 		  </div>
     	</nav>
 		</span>
@@ -77,16 +131,17 @@
  		 	<div class="col-sm-2" id="sideHome" style="text-align: left;" >
 				<nav class="navbarHome navbar-dark bg-dark " style=" margin-top: 80px;">
 				  <ul class="navbar-nav" id="sideList" style=" height: 100%">
-				  	<li class="nav-item">
-				      <a class="nav-link" href="#" style=" margin-top: 20px; margin-left: 50px; font-size: 2px;"> <img src="../static/image/logo1.jpg" style="width: 100px; height: 100px;"></a>
+				    <li class="nav-item">
+				      <a class="nav-link" href="#" id="sharedwithme" style=" margin-top: 120px; margin-left: 50px; font-size: 25px;"><i class="fas fa-shield-alt" style="color: white"></i>  Shared With Me</a>
+				      <form action="{{ url_for('shared') }}" id="shared-form" method="POST" enctype="multipart/form-data">
+				      	<input type="submit" name="" style="display: none">
+				      </form>
 				    </li>
 				    <li class="nav-item">
-				      
-				      	<a class="nav-link" href="#" id="uploadclick" style=" margin-top: 100px; margin-left: 50px; font-size: 25px;"><i class="fas fa-cloud-upload-alt" style="color: white"></i>Upload</a>
-				      	 
+				      <a class="nav-link" href="#" id="shareclick"style=" margin-top: 30px; margin-left: 50px; font-size: 25px;"><i class="fas fa-share-alt-square" style="color: white"></i>  Share a File</a>
 				    </li>
 				    <li class="nav-item">
-				      <a class="nav-link" href="#" style=" margin-top: 30px; margin-left: 50px; font-size: 25px;"><i class="fas fa-shield-alt" style="color: white"></i>  Private</a>
+				      	<a class="nav-link" href="#" id="uploadclick" style=" margin-top: 30px; margin-left: 50px; font-size: 25px;"><i class="fas fa-cloud-upload-alt" style="color: white"></i>  Upload</a>
 				    </li>
 				    <li class="nav-item">
 				      <a class="nav-link" href="#" id="downloadclick" style=" margin-top: 30px; margin-left: 50px; font-size: 25px;"><i class="fas fa-file-download" style="color: white"></i>  Download</a>
@@ -94,11 +149,19 @@
 				  </ul>
 				</nav> 		 		
  		 	</div>
-  			<div class="col-sm-9" > 			
-  			</div>
-  			<div class="col-sm-1">
+  			<div class="col-sm-10" style="overflow: hidden;"> 
+  				<br><br><br><br><br>
 
+			  		{% for f in files %} 
+
+			        	<div class="row file-name-div">
+			        		<div class="col-sm-1"></div>
+			        		<div class="col-sm-7">{{f.fname}}</div> 
+			        		<div class="col-sm-4">{{f.fuser}}</div>
+			        	</div>
+			        {% endfor %}			
   			</div>
+  			
                 <div class="upld-panel">
 				    <div class="head-upload" align="center" >
 						<h2>Upload File</h2>
@@ -115,7 +178,7 @@
 				    <div class="head-upload" align="center" >
 						<h2>Download A File</h2>
 				    </div>
-				 	<form action="{{ url_for('download') }}" id="download-form" method="POST" enctype="multipart/form-data">
+				 	<form action="{{ url_for('download') }}" id="downloadForm" name="downloadForm" method="POST" enctype="multipart/form-data">
 				 		<br>
 				 		<span style="color: white;">Enter File name:</span>
 				 		<input type="input" id="dwd-inp" value="" name="file" style=" width: 200px;">
@@ -126,10 +189,40 @@
 				 		{% endif %}
 				 		</div>
 				 		<!-- <input type="checkbox" name="privatebool"><span style="color: white;">Private File</span><br> -->
-						<input type="submit" id="sumbitform" value="Download" style="margin-left: 37%; margin-top: 5px; width: 120px;">
+						<input type="submit" id="sumbitform" name="download-button" value="Download" style="margin-left: 37%; margin-top: 5px; width: 120px;">
 						<br>
 					</form>
 			    </div>
+			    <div class="share-panel">
+				    <div class="head-upload" align="center" >
+						<h2>Share your file</h2>
+				    </div>
+				 	<form action="{{ url_for('sharefile') }}" id="share-form" method="POST" enctype="multipart/form-data">
+				 		<br>
+				 		<span style="color: white;">Enter File name:</span>
+				 		<input type="text" id="share-file" value="" name="sharedfile" style=" width: 200px;">
+				 		<div class="notfoundv2" style="height: 20px; text-align: right">
+				 		{% if not ffound %}
+				 			<span class="foundsv2" style="color: red; font-size: 10px; text-align: center;">FILE NOT FOUND</span>
+				 			<script> $(".share-panel").show();$(".download-panel").hide();</script>
+				 		{% endif %}
+				 		</div>
+				 		<span style="color: white;">Enter  Username:</span>
+				 		<input type="text" id="share-user" value="" name="shareduser" style=" width: 200px;">
+				 		<div class="notfoundv2" style="height: 20px; text-align: right">
+				 		{% if not ufound %}
+				 			<span class="foundsv2" style="color: red; font-size: 10px; text-align: center;">USER NOT FOUND</span>
+				 			<script> $(".share-panel").show();
+				 			$(".download-panel").hide();
+				 		</script>
+				 		{% endif %}
+				 		</div>
+				 		
+						<input type="submit" id="sumbitform" name="download-button" value="Share File" style="margin-left: 37%; margin-top: 5px; width: 120px;">
+						<br>
+					</form>
+			    </div>
+			</div>
 	</body>
 	<footer>
 		<div class="container">

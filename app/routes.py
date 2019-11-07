@@ -46,19 +46,25 @@ def loginRegistration():
     return render_template('login.html', form = formReg, form1 = formLog)
 
 
-@app.route('/user/<username>',methods = ['GET'])
+@app.route('/user/<username>',methods = ['GET','POST'])
 @login_required
 def home(username):
-	user = User.query.filter_by(username = username).first_or_404()
-	if not user:
-		return jsonify({"message":"No user found"})
-	user_data = {}
-	user_data['id'] = user.id
-	user_data['username'] = user.username
-	user_data['name'] = user.name
-	user_data['password'] = user.password
-	session['curr_user'] = user_data
-	return render_template('home.html', user = user_data,found=True)
+    user = User.query.filter_by(username = username).first_or_404()
+    if not user:
+        return jsonify({"message":"No user found"})
+    user_data = {}
+    user_data['id'] = user.id
+    user_data['username'] = user.username
+    user_data['name'] = user.name
+    user_data['password'] = user.password
+    session['curr_user'] = user_data
+    files=[]
+    all_files=Document.query.filter_by(privateval=0)
+    for f in all_files:
+    	files.append({'fname':f.name,'fuser':f.username})
+    #print(files)
+    session['files']=files
+    return render_template('home.html', user = user_data, files=files,found=True,ufound=True, ffound=True)
 @app.route('/upload', methods=['GET','POST'])
 def upload():
     if request.method == 'POST':
@@ -69,7 +75,15 @@ def upload():
         newFile= Document(name=file.filename, username=session['username'],doc=file.read(), privateval=x)
         db.session.add(newFile)
         db.session.commit()
-        return render_template('home.html', user=session['curr_user'])
+        files=[]
+        all_files=Document.query.filter_by(privateval=0)
+        for f in all_files:
+            files.append({'fname':f.name,'fuser':f.username})
+        #print(files)
+        session['files']=files
+        # return render_template('home.html', user=session['curr_user'])
+        return render_template('home.html', user=session['curr_user'],files=session['files'],found=True,ufound=True, ffound=True)
+
 @app.route('/download',  methods=['GET','POST'])
 def download():
     ipname=request.form.get('file')
@@ -77,11 +91,69 @@ def download():
     temp=True
     if file_data is None:
         temp=False
+    print(temp)
     if temp:
         return send_file(BytesIO(file_data.doc), attachment_filename=file_data.name, as_attachment=True)
-    return render_template('home.html', user=session['curr_user'],found=temp)        
+    else:
+        return render_template('home.html', user=session['curr_user'],files=session['files'],found=temp)
+        #return render_template('home.html', user=session['curr_user'],found=temp)
+    return render_template('home.html', user=session['curr_user'],found=temp) 
+
+@app.route('/shared', methods=['GET','POST'])
+def shared():
+    files=[]
+    all_files=Document.query.filter_by(sharedval=1, username=session['username'],privateval=1)
+    for f in all_files:
+        files.append({'fname':f.name,'fuser':f.username})
+    print(files)
+    session['files']=files
+    return render_template('home.html', user = session['curr_user'], files=files, found=True,ufound=True, ffound=True)
+
+@app.route('/search', methods=['GET','POST'])
+def search():
+    if request.method=='POST':
+        files=[]
+        all_files=Document.query.filter_by(sharedval=0, privateval=0)
+        searchstr=request.form.get('searchBar')
+        print(searchstr)
+        for f in all_files:
+            if searchstr in f.name:
+                files.append({'fname':f.name,'fuser':f.username})
+        print(files)
+        session['files']=files
+    return render_template('home.html', user = session['curr_user'], files=files, found=True,ufound=True, ffound=True)
+
+@app.route('/sharefile',methods=['GET','POST'])
+def sharefile():
+    if request.method=='POST':
+        uname=request.form.get('shareduser')
+        fname=request.form.get('sharedfile')
+        file_data= Document.query.filter_by(name=fname).first()
+        user=User.query.filter_by(username=uname).first()
+        ffound=True;
+        ufound=True;
+        if file_data is None:
+            ffound=False
+        if user is None:
+            ufound=False
+        if ffound and ufound:    
+            newFile= Document(name=file_data.name, username=uname,doc=file_data.doc, privateval=1,sharedval=1)
+            db.session.add(newFile)
+            db.session.commit()
+        files=[]
+        all_files=Document.query.filter_by(privateval=0)
+        for f in all_files:
+            files.append({'fname':f.name,'fuser':f.username})
+        #print(files)
+        session['files']=files
+        if  not ffound or not ufound:
+            return render_template('home.html', user=session['curr_user'],files=session['files'],ufound=ufound, ffound=ffound,found=True)
+            #return render_template('home.html', user=session['curr_user'],found=temp) 
+        return render_template('home.html', user = session['curr_user'], files=session['files'],ufound=ufound, ffound=ffound,found=True)
+
 @app.route('/logout')
 def logout():
     logout_user()
+    session['username']=''
     return redirect(url_for('loginRegistration'))
 app.run(debug = True)
