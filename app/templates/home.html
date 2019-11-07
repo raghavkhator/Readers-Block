@@ -105,7 +105,7 @@
 	<body>
 		<span name="navigation">
 			<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
-				      <a class="nav-link" href="#" style=" margin-top: -15px; margin-left: 10px; font-size: 2px; margin-bottom: -15px;"> <img src="../static/image/logo1.jpeg" style="width: 150px; height: 70px;"></a>
+				      <a class="nav-link" href="#" style=" margin-top: -15px; margin-left: 10px; font-size: 2px; margin-bottom: -15px;"> <img src="../static/image/logo1.png" style="width: 150px; height: 70px;"></a>
 				    
 		 
 
@@ -113,7 +113,7 @@
 
 		      	 <form class="navbar-form navbar-left" action="{{ url_for('search') }}" name="search-form" id="search-form" method="POST">
       			 <div class="form-group">
-        			<input style=" width: 650px; font-family: 'Trebuchet MS', Helvetica, sans-serif;" type="text" class="fas fa-search" name="searchBar" id="searchBar" placeholder="Search">
+        			<input style=" width: 600px; font-family: 'Trebuchet MS', Helvetica, sans-serif; margin-left: -50px;" type="text" class="fas fa-search" name="searchBar" id="searchBar" placeholder="Search">
         			<input type="submit" hidden>
         		 </div>
         	
@@ -121,8 +121,9 @@
 		  </div>
 
 		  <div class="navbar-nav" id="profileIcon">
-		  	  <a class="navbar-brand" href="#" style="margin-left: -80px;">{{user.username}}</a>
-             <span  style="color: lightblue; margin-left: 20px; font-size: 50px;" class="fas fa-user-circle"></span>
+		  	  <a class="nav-item nav-link" href="{{ url_for('profile') }}" style="margin-left: -190px;"><span  style="color: lightblue; font-size: 30px;margin-top: -10px" class="fas fa-user-circle"></span>&emsp;{{user.username}}</a>
+             
+              <a class="nav-item nav-link" href="{{ url_for('logout') }}" style="margin-left: 40px; "id="logout">Logout</a>
 		  </div>
     	</nav>
 		</span>
@@ -132,19 +133,19 @@
 				<nav class="navbarHome navbar-dark bg-dark " style=" margin-top: 80px;">
 				  <ul class="navbar-nav" id="sideList" style=" height: 100%">
 				    <li class="nav-item">
-				      <a class="nav-link" href="#" id="sharedwithme" style=" margin-top: 120px; margin-left: 50px; font-size: 25px;"><i class="fas fa-shield-alt" style="color: white"></i>  Shared With Me</a>
+				      <a class="nav-link" href="#" id="sharedwithme" style=" margin-top: 120px; margin-left: 40px; font-size: 20px;"><i class="fas fa-shield-alt" style="color: white"></i>  Shared With Me</a>
 				      <form action="{{ url_for('shared') }}" id="shared-form" method="POST" enctype="multipart/form-data">
 				      	<input type="submit" name="" style="display: none">
 				      </form>
 				    </li>
 				    <li class="nav-item">
-				      <a class="nav-link" href="#" id="shareclick"style=" margin-top: 30px; margin-left: 50px; font-size: 25px;"><i class="fas fa-share-alt-square" style="color: white"></i>  Share a File</a>
+				      <a class="nav-link" href="#" id="shareclick"style=" margin-top: 30px; margin-left: 40px; font-size: 20px;"><i class="fas fa-share-alt-square" style="color: white"></i>  Share a File</a>
 				    </li>
 				    <li class="nav-item">
-				      	<a class="nav-link" href="#" id="uploadclick" style=" margin-top: 30px; margin-left: 50px; font-size: 25px;"><i class="fas fa-cloud-upload-alt" style="color: white"></i>  Upload</a>
+				      	<a class="nav-link" href="#" id="uploadclick" style=" margin-top: 30px; margin-left: 40px; font-size: 20px;"><i class="fas fa-cloud-upload-alt" style="color: white"></i>  Upload File</a>
 				    </li>
 				    <li class="nav-item">
-				      <a class="nav-link" href="#" id="downloadclick" style=" margin-top: 30px; margin-left: 50px; font-size: 25px;"><i class="fas fa-file-download" style="color: white"></i>  Download</a>
+				      <a class="nav-link" href="#" id="downloadclick" style=" margin-top: 30px; margin-left: 40px; font-size: 20px;"><i class="fas fa-file-download" style="color: white"></i>  Download File</a>
 				    </li>
 				  </ul>
 				</nav> 		 		

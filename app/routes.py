@@ -104,7 +104,7 @@ def shared():
     files=[]
     all_files=Document.query.filter_by(sharedval=1, username=session['username'],privateval=1)
     for f in all_files:
-        files.append({'fname':f.name,'fuser':f.username})
+        files.append({'fname':f.name,'fuser':f.owner})
     print(files)
     session['files']=files
     return render_template('home.html', user = session['curr_user'], files=files, found=True,ufound=True, ffound=True)
@@ -123,7 +123,7 @@ def sharefile():
         if user is None:
             ufound=False
         if ffound and ufound:    
-            newFile= Document(name=file_data.name, username=uname,doc=file_data.doc, privateval=1,sharedval=1)
+            newFile= Document(name=file_data.name, username=uname,owner=session['username'],doc=file_data.doc, privateval=1,sharedval=1)
             db.session.add(newFile)
             db.session.commit()
         files=[]
@@ -172,7 +172,7 @@ def search():
         searchstr=request.form.get('searchBar')
         print(searchstr)
         for f in all_files:
-            if searchstr in f.name:
+            if searchstr.casefold() in f.name.casefold():
                 files.append({'fname':f.name,'fuser':f.username})
         print(files)
         session['files']=files

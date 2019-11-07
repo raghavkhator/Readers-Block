@@ -24,9 +24,10 @@ class Document(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
 	name = db.Column(db.String(50))
 	username = db.Column(db.String(50))
+	owner = db.Column(db.String(50))
 	doc = db.Column(db.LargeBinary)
 	privateval = db.Column(db.Integer)
-	sharedval = db.Column(db.Integer)
+	sharedval = db.Column(db.Integer, default=0)
 	def __repr__(self):
 		return  '<Doc {}>'.format(self.doc)
 		
